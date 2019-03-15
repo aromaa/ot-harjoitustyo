@@ -1,0 +1,116 @@
+commit f9ef946971a9191972d5023ea36793ad84aae188
+Author: isokissa3 <koti94@windowslive.com>
+Date:   Fri Mar 15 11:21:47 2019 +0200
+
+    Long live file22
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 6ca6b7e13c8ffca67986d52fb15d2912527f759d
+Author: isokissa3 <koti94@windowslive.com>
+Date:   Fri Mar 15 11:20:42 2019 +0200
+
+    Tiedostoja
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit ca599e7f24b20fc7326e1c7f9b48bfc528850816
+Author: isokissa3 <koti94@windowslive.com>
+Date:   Fri Mar 15 11:18:08 2019 +0200
+
+    Poof!
+
+ eka.txt    | 44 +-------------------------------------------
+ kolmas.txt |  3 +--
+ 2 files changed, 2 insertions(+), 45 deletions(-)
+
+commit 3ee27cc2e7467aea667df5340caa61bdb1c43507
+Author: isokissa3 <koti94@windowslive.com>
+Date:   Fri Mar 15 11:16:18 2019 +0200
+
+    New identity
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit e1df9ad3fe8a34a2761060e9bc72b65361b9045a
+Author: isokissa3 <koti94@windowslive.com>
+Date:   Fri Mar 15 11:15:36 2019 +0200
+
+    RIP
+
+ toinen.txt | 2 --
+ 1 file changed, 2 deletions(-)
+
+commit cb4cdb0a3ec2844b601c7c94473136d8ababb6a2
+Author: isokissa3 <koti94@windowslive.com>
+Date:   Fri Mar 15 11:13:24 2019 +0200
+
+    Destruction
+
+ tiedosto.txt | 1209 
++---------------------------------------------------------
+ 1 file changed, 3 insertions(+), 1206 deletions(-)
+
+commit b52215e7ea929c410f9b0df3c25720f29a618d35
+Author: isokissa3 <koti94@windowslive.com>
+Date:   Fri Mar 15 11:12:18 2019 +0200
+
+    Dramatic
+
+ tiedosto.txt | 4563 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 4563 insertions(+)
+
+commit 80e3f3275d986359496c851ba8712c880eebf2bf
+Author: isokissa3 <koti94@windowslive.com>
+Date:   Fri Mar 15 11:09:51 2019 +0200
+
+    Nyt on jo folderikin
+
+ stuff/stuff.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 4c924054493dc81aa1fae4a9f155df30f8eab419
+Author: isokissa3 <koti94@windowslive.com>
+Date:   Fri Mar 15 11:09:13 2019 +0200
+
+    Ihmeellistä
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 4250ab58beaf88ba363195193b80856b321a82d0
+Author: isokissa3 <koti94@windowslive.com>
+Date:   Fri Mar 15 11:07:54 2019 +0200
+
+    Kolmas tiedosto, wau!
+
+ kolmas.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 76808eabb83858893724ddea59c2fca763936e1c
+Author: isokissa3 <koti94@windowslive.com>
+Date:   Fri Mar 15 11:06:33 2019 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 518c40ba17e871008fd2d7a4bb17f454883592f8
+Author: isokissa3 <koti94@windowslive.com>
+Date:   Fri Mar 15 11:04:36 2019 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
