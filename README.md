@@ -1,6 +1,6 @@
 # Ohjelmistotekniikkaa, harjoitustyö
 
-### Dokumentaatio
+## Dokumentaatio
 
 [Vaatimusmäärittely](https://github.com/isokissa3/ot-harjoitustyo/blob/master/dokumentointi/vaatimusmaarittely.md)
 
