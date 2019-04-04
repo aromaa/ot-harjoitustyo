@@ -1,7 +1,7 @@
 package fi.joniaromaa.p2pchat.network.communication.incoming;
 
 import fi.joniaromaa.p2pchat.network.communication.IncomingPacket;
-import fi.joniaromaa.p2pchat.network.communication.handler.ServerConnectionHandler;
+import fi.joniaromaa.p2pchat.network.communication.handler.ConnectionHandler;
 import io.netty.buffer.ByteBuf;
 
 public class PingIncomingPacket implements IncomingPacket
@@ -12,7 +12,7 @@ public class PingIncomingPacket implements IncomingPacket
 	}
 
 	@Override
-	public void handle(ServerConnectionHandler handler) throws Exception
+	public void handle(ConnectionHandler handler) throws Exception
 	{
 	}
 }

@@ -1,4 +1,4 @@
-package fi.joniaromaa.p2pchat.network.communication.outgoing;
+package fi.joniaromaa.p2pchat.network.communication.outgoing.authentication;
 
 import fi.joniaromaa.p2pchat.network.communication.OutgoingPacket;
 import fi.joniaromaa.p2pchat.utils.ByteBufUtils;
@@ -11,12 +11,14 @@ public class WhoAreYouOutgoingPacket implements OutgoingPacket
 	private final byte[] iAm;
 	private final String nick;
 
-	//TODO: Challange
+	private final byte[] challenge;
 	
 	@Override
 	public void write(ByteBuf out)
 	{
 		ByteBufUtils.writeBytes(out, this.iAm);
 		ByteBufUtils.writeString(out, this.nick);
+
+		ByteBufUtils.writeBytes(out, this.challenge);
 	}
 }

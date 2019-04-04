@@ -1,10 +1,14 @@
 package fi.joniaromaa.p2pchat.utils;
 
+import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.Signature;
+import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -54,5 +58,25 @@ public class EncryptionUtils
 	public static KeyPair getKeyPair(byte[] privateBytes, byte[] publicBytes) throws InvalidKeySpecException
 	{
 		return new KeyPair(EncryptionUtils.getPublicKey(publicBytes), EncryptionUtils.getPrivateKey(privateBytes));
+	}
+	
+	public static byte[] getSignedChallange(PrivateKey privateKey, byte[] challenge) throws SignatureException, InvalidKeyException, NoSuchAlgorithmException
+	{
+		Signature signature = Signature.getInstance("SHA256withRSA");
+		
+		signature.initSign(privateKey);
+		signature.update(challenge);
+
+		return signature.sign();
+	}
+	
+	public static boolean verifyChallange(PublicKey publicKey, byte[] challenge, byte[] signedChallenge) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException
+	{
+		Signature signature = Signature.getInstance("SHA256withRSA");
+		
+		signature.initVerify(publicKey);
+		signature.update(challenge);
+
+		return signature.verify(signedChallenge);
 	}
 }

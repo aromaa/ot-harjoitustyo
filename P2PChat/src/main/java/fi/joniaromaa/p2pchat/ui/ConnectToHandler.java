@@ -2,9 +2,8 @@ package fi.joniaromaa.p2pchat.ui;
 
 import java.io.IOException;
 
-import fi.joniaromaa.p2pchat.identity.MyIdentity;
 import fi.joniaromaa.p2pchat.network.NetworkHandlerClient;
-import fi.joniaromaa.p2pchat.network.communication.outgoing.WhoAreYouOutgoingPacket;
+import fi.joniaromaa.p2pchat.network.communication.outgoing.authentication.RequestChallengeOutgoingPacket;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +13,7 @@ import javafx.stage.Stage;
 
 public class ConnectToHandler
 {
-	private MyIdentity identity;
+	private PanelController panel;
 	
 	@FXML private TextField hostText;
 	@FXML private TextField portText;
@@ -24,18 +23,18 @@ public class ConnectToHandler
 	{
 		//TODO: This needs a lot work, keep track of connections PROPERLY, async, disconnection handling
 		NetworkHandlerClient client = new NetworkHandlerClient();
-		client.start(this.hostText.getText(), Integer.parseInt(this.portText.getText()));
+		client.start(this.panel, this.hostText.getText(), Integer.parseInt(this.portText.getText()));
 		
-		client.send(new WhoAreYouOutgoingPacket(this.identity.getKeyPair().getPublic().getEncoded(), this.identity.getNickname()));
+		client.send(new RequestChallengeOutgoingPacket());
 	}
 	
-	public static void create(MyIdentity identity) throws IOException
+	public static void create(PanelController panel) throws IOException
 	{
 		FXMLLoader loader = new FXMLLoader(ConnectToHandler.class.getResource("ConnectTo.fxml"));
 		
 		Parent pane = loader.load();
-		
-		((ConnectToHandler)loader.getController()).identity = identity;
+
+		((ConnectToHandler)loader.getController()).panel = panel;
 		
 		Stage stage = new Stage();
         stage.setTitle("Connect To Peer");

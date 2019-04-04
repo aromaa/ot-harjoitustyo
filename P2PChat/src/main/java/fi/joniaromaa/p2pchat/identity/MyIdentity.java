@@ -36,4 +36,9 @@ public class MyIdentity implements Destroyable
 	{
         return this.keyPair.getPrivate().isDestroyed();
     }
+
+	public byte[] getPublicKeyBytes()
+	{
+		return this.keyPair.getPublic().getEncoded();
+	}
 }

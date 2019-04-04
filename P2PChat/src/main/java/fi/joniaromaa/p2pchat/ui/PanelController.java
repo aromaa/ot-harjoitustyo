@@ -15,7 +15,7 @@ import lombok.Getter;
 public class PanelController
 {
 	private Storage storage;
-	private MyIdentity identity;
+	@Getter private MyIdentity identity;
 	
 	private NetworkHandlerServer networkServer;
 	
@@ -49,7 +49,7 @@ public class PanelController
 	{
 		try
 		{
-			ConnectToHandler.create(this.identity);
+			ConnectToHandler.create(this);
 		}
 		catch (IOException e)
 		{

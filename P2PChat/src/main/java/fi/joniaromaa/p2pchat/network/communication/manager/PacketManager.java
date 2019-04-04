@@ -6,9 +6,13 @@ import java.util.Map;
 import fi.joniaromaa.p2pchat.network.communication.IncomingPacket;
 import fi.joniaromaa.p2pchat.network.communication.OutgoingPacket;
 import fi.joniaromaa.p2pchat.network.communication.incoming.PingIncomingPacket;
-import fi.joniaromaa.p2pchat.network.communication.incoming.WhoAreYouIncomingPacket;
+import fi.joniaromaa.p2pchat.network.communication.incoming.authentication.RequestChallengeIncomingPacket;
+import fi.joniaromaa.p2pchat.network.communication.incoming.authentication.SolveChallengeIncomingPacket;
+import fi.joniaromaa.p2pchat.network.communication.incoming.authentication.WhoAreYouIncomingPacket;
 import fi.joniaromaa.p2pchat.network.communication.outgoing.PingOutgoingPacket;
-import fi.joniaromaa.p2pchat.network.communication.outgoing.WhoAreYouOutgoingPacket;
+import fi.joniaromaa.p2pchat.network.communication.outgoing.authentication.RequestChallengeOutgoingPacket;
+import fi.joniaromaa.p2pchat.network.communication.outgoing.authentication.SolveChallengeOutgoingPacket;
+import fi.joniaromaa.p2pchat.network.communication.outgoing.authentication.WhoAreYouOutgoingPacket;
 import io.netty.buffer.ByteBuf;
 
 public class PacketManager
@@ -31,12 +35,16 @@ public class PacketManager
 	{
 		this.addIncoming(0, WhoAreYouIncomingPacket.class);
 		this.addIncoming(1, PingIncomingPacket.class);
+		this.addIncoming(2, RequestChallengeIncomingPacket.class);
+		this.addIncoming(3, SolveChallengeIncomingPacket.class);
 	}
 	
 	private void addOutgoings()
 	{
 		this.addOutgoing(0, WhoAreYouOutgoingPacket.class);
 		this.addOutgoing(1, PingOutgoingPacket.class);
+		this.addOutgoing(2, RequestChallengeOutgoingPacket.class);
+		this.addOutgoing(3, SolveChallengeOutgoingPacket.class);
 	}
 	
 	protected void addIncoming(int id, Class<? extends IncomingPacket> packet)

@@ -2,9 +2,9 @@ package fi.joniaromaa.p2pchat.network;
 
 import java.util.concurrent.TimeUnit;
 
+import fi.joniaromaa.p2pchat.network.communication.handler.ServerConnectionHandler;
 import fi.joniaromaa.p2pchat.network.communication.handler.PacketDecoderHandler;
 import fi.joniaromaa.p2pchat.network.communication.handler.PacketEncoderHandler;
-import fi.joniaromaa.p2pchat.network.communication.handler.ServerConnectionHandler;
 import fi.joniaromaa.p2pchat.network.communication.manager.PacketManager;
 import fi.joniaromaa.p2pchat.ui.PanelController;
 import fi.joniaromaa.p2pchat.utils.NettyUtils;
