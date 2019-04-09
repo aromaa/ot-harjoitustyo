@@ -19,58 +19,53 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;
-import io.netty.handler.timeout.ReadTimeoutHandler;
 
-public class NetworkHandlerClient
-{
+public class NetworkHandlerClient {
 	private PacketManager packetManager;
-	
+
 	private EventLoopGroup bossGroup;
-	
+
 	private Channel channel;
-	
-	public NetworkHandlerClient()
-	{
+
+	public NetworkHandlerClient() {
 		this.packetManager = new PacketManager();
-		
+
 		this.bossGroup = NettyUtils.createEventLoopGroup(1);
 	}
-	
-	public void start(PanelController panel, String ip, int port)
-	{
+
+	public void start(PanelController panel, String ip, int port) {
 		Bootstrap bootstrap = new Bootstrap();
 		bootstrap.group(this.bossGroup)
-			.channel(NettyUtils.getSocketChannel())
-			.option(ChannelOption.TCP_NODELAY, true)
-			.handler(new ChannelInitializer<SocketChannel>()
-			{
-				@Override
-				protected void initChannel(SocketChannel channel) throws Exception
-				{
-					ChannelPipeline pipeline = channel.pipeline();
-	
-					pipeline.addLast(new LengthFieldPrepender(3));
-					pipeline.addLast(new PacketEncoderHandler(NetworkHandlerClient.this.packetManager));
-					
-					pipeline.addLast(new ReadTimeoutHandler(60, TimeUnit.SECONDS));
-					pipeline.addLast(new IdleStateHandler(0, 15, 0, TimeUnit.SECONDS));
-					
-					pipeline.addLast(new LengthFieldBasedFrameDecoder(1 << 24, 0, 3, 0, 3));
-					pipeline.addLast(new PacketDecoderHandler(NetworkHandlerClient.this.packetManager));
-					pipeline.addLast(new ClientConnectionHandler(panel));
-				}
-			});
-		
-		this.channel = bootstrap.connect(ip, port).awaitUninterruptibly().channel(); //Change to listener probs
+				.channel(NettyUtils.getSocketChannel())
+				.option(ChannelOption.TCP_NODELAY, true)
+				.handler(this.createChannelInitializer(panel));
+
+		this.channel = bootstrap.connect(ip, port).awaitUninterruptibly().channel(); // Change to listener probs
 	}
-	
-	public void send(OutgoingPacket packet)
-	{
+
+	private ChannelInitializer<SocketChannel> createChannelInitializer(PanelController panel) {
+		return new ChannelInitializer<SocketChannel>() {
+			@Override
+			protected void initChannel(SocketChannel channel) throws Exception {
+				ChannelPipeline pipeline = channel.pipeline();
+
+				pipeline.addLast(new LengthFieldPrepender(3));
+				pipeline.addLast(new PacketEncoderHandler(NetworkHandlerClient.this.packetManager));
+
+				pipeline.addLast(new IdleStateHandler(30, 15, 0, TimeUnit.SECONDS));
+
+				pipeline.addLast(new LengthFieldBasedFrameDecoder(1 << 24, 0, 3, 0, 3));
+				pipeline.addLast(new PacketDecoderHandler(NetworkHandlerClient.this.packetManager));
+				pipeline.addLast(new ClientConnectionHandler(panel));
+			}
+		};
+	}
+
+	public void send(OutgoingPacket packet) {
 		this.channel.writeAndFlush(packet);
 	}
-	
-	public void stop()
-	{
+
+	public void stop() {
 		this.bossGroup.shutdownGracefully();
 	}
 }

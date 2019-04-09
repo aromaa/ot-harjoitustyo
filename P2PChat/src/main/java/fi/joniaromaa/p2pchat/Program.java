@@ -16,46 +16,38 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
-public class Program extends Application
-{
-	//TODO: WHAT DO WE DO TO THIS
+public class Program extends Application {
+	// TODO: WHAT DO WE DO TO THIS
 	private static Scene scene;
-	
-	public static void main(String[] args)
-	{
+
+	public static void main(String[] args) {
 		Application.launch(args);
 	}
 
 	@Override
-	public void start(Stage primaryStage) throws Exception
-	{
-		if (!EncryptionUtils.isInitialized())
-		{
+	public void start(Stage primaryStage) throws Exception {
+		if (!EncryptionUtils.isInitialized()) {
 			Alert alert = new Alert(AlertType.ERROR, "Encryption utils is unable to initialize");
 			alert.show();
-			
+
 			return;
 		}
-		
+
 		Storage storage = new SqliteStorage(new File("test.db"));
-		
+
 		Optional<MyIdentity> identity = storage.getIdentityDao().getIdentity();
-		if (identity.isPresent())
-		{
+		if (identity.isPresent()) {
 			primaryStage.setScene(new Scene(PanelController.create(storage, identity.get())));
-		}
-		else
-		{
+		} else {
 			primaryStage.setScene(new Scene(FirstStartController.create(storage)));
 		}
-		
+
 		Program.scene = primaryStage.getScene();
-		
+
 		primaryStage.show();
 	}
-	
-	public static void setNode(Parent value)
-	{
+
+	public static void setNode(Parent value) {
 		Program.scene.setRoot(value);
 	}
 }

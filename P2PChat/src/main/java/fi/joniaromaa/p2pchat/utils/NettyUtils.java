@@ -11,32 +11,22 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-public class NettyUtils
-{
-	private static final boolean epoll = Epoll.isAvailable();
-	
-	static
-	{
-		
-	}
-	
-	public static EventLoopGroup createEventLoopGroup()
-	{
+public class NettyUtils {
+	private static final boolean EPOLL = Epoll.isAvailable();
+
+	public static EventLoopGroup createEventLoopGroup() {
 		return NettyUtils.createEventLoopGroup(0);
 	}
-	
-	public static EventLoopGroup createEventLoopGroup(int threads)
-	{
-		return NettyUtils.epoll ? new EpollEventLoopGroup(threads) : new NioEventLoopGroup(threads);
+
+	public static EventLoopGroup createEventLoopGroup(int threads) {
+		return NettyUtils.EPOLL ? new EpollEventLoopGroup(threads) : new NioEventLoopGroup(threads);
 	}
-	
-	public static Class<? extends ServerChannel> getServerChannel()
-	{
-		return NettyUtils.epoll ? EpollServerSocketChannel.class : NioServerSocketChannel.class;
+
+	public static Class<? extends ServerChannel> getServerChannel() {
+		return NettyUtils.EPOLL ? EpollServerSocketChannel.class : NioServerSocketChannel.class;
 	}
-	
-	public static Class<? extends SocketChannel> getSocketChannel()
-	{
-		return NettyUtils.epoll ? EpollSocketChannel.class : NioSocketChannel.class;
+
+	public static Class<? extends SocketChannel> getSocketChannel() {
+		return NettyUtils.EPOLL ? EpollSocketChannel.class : NioSocketChannel.class;
 	}
 }

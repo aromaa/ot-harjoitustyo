@@ -9,36 +9,30 @@ import fi.joniaromaa.p2pchat.utils.EncryptionUtils;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MyIdentity implements Destroyable
-{
+public class MyIdentity implements Destroyable {
 	@Getter @Setter private String nickname;
-	
+
 	@Getter private final KeyPair keyPair;
-	
-	public MyIdentity(String nickname, KeyPair keyPair)
-	{
+
+	public MyIdentity(String nickname, KeyPair keyPair) {
 		this.nickname = nickname;
-		
+
 		this.keyPair = keyPair;
 	}
-	
-	public static MyIdentity generate(String nickname)
-	{
+
+	public static MyIdentity generate(String nickname) {
 		return new MyIdentity(nickname, EncryptionUtils.generateKeyPair());
 	}
-	
-	public void destroy() throws DestroyFailedException
-	{
-		this.keyPair.getPrivate().destroy();
-    }
-	
-	public boolean isDestroyed()
-	{
-        return this.keyPair.getPrivate().isDestroyed();
-    }
 
-	public byte[] getPublicKeyBytes()
-	{
+	public void destroy() throws DestroyFailedException {
+		this.keyPair.getPrivate().destroy();
+	}
+
+	public boolean isDestroyed() {
+		return this.keyPair.getPrivate().isDestroyed();
+	}
+
+	public byte[] getPublicKeyBytes() {
 		return this.keyPair.getPublic().getEncoded();
 	}
 }

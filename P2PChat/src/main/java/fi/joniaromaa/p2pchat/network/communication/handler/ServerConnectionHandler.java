@@ -4,18 +4,15 @@ import fi.joniaromaa.p2pchat.network.communication.outgoing.authentication.Reque
 import fi.joniaromaa.p2pchat.ui.PanelController;
 import io.netty.channel.ChannelHandlerContext;
 
-public class ServerConnectionHandler extends ConnectionHandler
-{
-	public ServerConnectionHandler(PanelController panel)
-	{
+public class ServerConnectionHandler extends ConnectionHandler {
+	public ServerConnectionHandler(PanelController panel) {
 		super(panel);
 	}
-	
+
 	@Override
-	public void channelActive(ChannelHandlerContext ctx)
-	{
+	public void channelActive(ChannelHandlerContext ctx) {
 		super.channelActive(ctx);
-		
+
 		this.getChannel().writeAndFlush(new RequestChallengeOutgoingPacket());
 	}
 }

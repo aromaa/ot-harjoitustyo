@@ -12,44 +12,35 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 
-public class FirstStartController
-{
+public class FirstStartController {
 	private Storage storage;
-	
+
 	@FXML private TextField nickField;
 
 	@FXML
-	private void confirm()
-	{
+	private void confirm() {
 		MyIdentity identity = MyIdentity.generate(this.nickField.getText());
-		
-		if (this.storage.getIdentityDao().save(identity))
-		{
-			try
-			{
+
+		if (this.storage.getIdentityDao().save(identity)) {
+			try {
 				Program.setNode(PanelController.create(this.storage, identity));
+			} catch (IOException ignore) {
 			}
-			catch (IOException ignore)
-			{
-			}
-		}
-		else
-		{
+		} else {
 			Alert alert = new Alert(AlertType.ERROR, "Unable to save the identity...");
 			alert.show();
-			
-			//Should we continue?
+
+			// Should we continue?
 		}
 	}
-	
-	public static Parent create(Storage storage) throws IOException
-	{
+
+	public static Parent create(Storage storage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(FirstStartController.class.getResource("FirstStart.fxml"));
-		
+
 		Parent pane = loader.load();
-		
-		((FirstStartController)loader.getController()).storage = storage;
-		
+
+		((FirstStartController) loader.getController()).storage = storage;
+
 		return pane;
 	}
 }

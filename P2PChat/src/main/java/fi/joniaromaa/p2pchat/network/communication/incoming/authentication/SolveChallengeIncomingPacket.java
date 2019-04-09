@@ -7,24 +7,22 @@ import fi.joniaromaa.p2pchat.network.communication.outgoing.authentication.WhoAr
 import fi.joniaromaa.p2pchat.utils.ByteBufUtils;
 import fi.joniaromaa.p2pchat.utils.EncryptionUtils;
 import io.netty.buffer.ByteBuf;
+import lombok.Getter;
 
-public class SolveChallengeIncomingPacket implements IncomingPacket
-{
-	private byte[] challange;
-	
+public class SolveChallengeIncomingPacket implements IncomingPacket {
+	@Getter private byte[] challenge;
+
 	@Override
-	public void read(ByteBuf in)
-	{
-		this.challange = ByteBufUtils.readBytes(in);
+	public void read(ByteBuf in) {
+		this.challenge = ByteBufUtils.readBytes(in);
 	}
 
 	@Override
-	public void handle(ConnectionHandler handler) throws Exception
-	{
+	public void handle(ConnectionHandler handler) throws Exception {
 		MyIdentity identity = handler.getPanel().getIdentity();
 
-		//TODO: Handle the exceptions?
-		byte[] signed = EncryptionUtils.getSignedChallange(identity.getKeyPair().getPrivate(), this.challange);
+		// TODO: Handle the exceptions?
+		byte[] signed = EncryptionUtils.getSignedChallange(identity.getKeyPair().getPrivate(), this.challenge);
 
 		handler.getChannel().writeAndFlush(new WhoAreYouOutgoingPacket(identity.getPublicKeyBytes(), identity.getNickname(), signed));
 	}

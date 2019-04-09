@@ -1,0 +1,11 @@
+[Storage]1-1[Identity Dao]
+[Storage]1-1[SqliteStorage]
+[Storage]1-1[Abstract Storage Adapter]
+
+[Abstract Storage Adapter]1-1[Abstract Identity Adapter]
+[Abstract Identity Adapter]1-1[Identity Dao]
+
+[SqliteStorage]1-1[SqliteIdentityAdapter]
+[SqliteIdentityAdapter]1-1[Abstract Identity Adapter]
+
+[Identity Dao]1-1[My Identity]

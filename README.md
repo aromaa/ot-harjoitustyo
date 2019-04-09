@@ -4,6 +4,8 @@ Sovelluksen avulla käyttäjät voivat jutella ja mahdollisesti jakaa tiedostoja
 
 ## Dokumentaatio
 
+[Arkkitehtuuri](https://github.com/isokissa3/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
+
 [Vaatimusmäärittely](https://github.com/isokissa3/ot-harjoitustyo/blob/master/dokumentointi/vaatimusmaarittely.md)
 
 [Työaikakirjanpito](https://github.com/isokissa3/ot-harjoitustyo/blob/master/dokumentointi/tuntikirjanpito.md)
