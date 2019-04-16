@@ -1,5 +1,7 @@
 package fi.joniaromaa.p2pchat.storage.sqlite;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -14,11 +16,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fi.joniaromaa.p2pchat.identity.MyIdentity;
+import fi.joniaromaa.p2pchat.storage.dao.IdentityDao;
 import fi.joniaromaa.p2pchat.utils.EncryptionUtils;
 
 public class SqliteStorageIdentityTest
 {
-	private static final File TEST_FOLDER = new File("automated-tests-temp");
+	private static final File TEST_FOLDER = new File("automated-tests-identity");
 	
 	private SqliteStorage storage;
 	
@@ -33,15 +36,20 @@ public class SqliteStorageIdentityTest
 	@Test
 	public void canIdentity() throws InvalidKeySpecException
 	{
+		IdentityDao dao = this.storage.getIdentityDao();
+		
+		//There should be no default value
+		assertFalse(dao.getIdentity().isPresent());
+		
 		KeyPair keyPair = EncryptionUtils.generateKeyPair();
 		
-		MyIdentity identity = new MyIdentity(keyPair, "THIS-IS-TEST");
+		MyIdentity identity = new MyIdentity(keyPair, "Joni");
 		
-		this.storage.getIdentityDao().save(identity);
+		assertTrue(this.storage.getIdentityDao().save(identity));
 		
 		MyIdentity saved = this.storage.getIdentityDao().getIdentity().get();
 		
-		assertTrue(identity.getNickname().equals(saved.getNickname()));
+		assertEquals(identity.getNickname(), saved.getNickname());
 		
 		//Not sure whats the most ideal way to check for quality for these
 		assertTrue(Arrays.equals(identity.getKeyPair().getPrivate().getEncoded(), saved.getKeyPair().getPrivate().getEncoded()));

@@ -18,16 +18,17 @@ public class SqliteContactsAdapter extends AbstractContactsAdapter<SqliteStorage
 
 	@Override
 	public Optional<ContactIdentity> addContact(PublicKey publicKey, String nickname) {
-		try (PreparedStatement statement = this.getStorage().getConnection().prepareStatement("INSERT INTO contacts(public_key, nickname) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement statement = this.getStorage().getConnection().prepareStatement("INSERT OR IGNORE INTO contacts(public_key, nickname) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS)) {
 			statement.setBytes(1, publicKey.getEncoded());
 			statement.setString(2, nickname);
-			statement.execute();
-
-			try (ResultSet result = statement.getGeneratedKeys()) {
-				if (result.next()) {
-					int id = result.getInt(1);
-
-					return Optional.of(new ContactIdentity(id, publicKey, nickname));
+			
+			if (statement.executeUpdate() > 0) {
+				try (ResultSet result = statement.getGeneratedKeys()) {
+					if (result.next()) {
+						int id = result.getInt(1);
+						
+						return Optional.of(new ContactIdentity(id, publicKey, nickname));
+					}
 				}
 			}
 		} catch (SQLException e) {
@@ -39,7 +40,7 @@ public class SqliteContactsAdapter extends AbstractContactsAdapter<SqliteStorage
 
 	@Override
 	public void updateContact(ContactIdentity contact) {
-		try (PreparedStatement statement = this.getStorage().getConnection().prepareStatement("UPDATE contacts SET nickname = ?, contact_name = ? WHERE id = ? LIMIT 1 ")) {
+		try (PreparedStatement statement = this.getStorage().getConnection().prepareStatement("UPDATE contacts SET nickname = ?, contact_name = ? WHERE id = ?")) {
 			statement.setString(1, contact.getNickname());
 			statement.setString(2, contact.getContactName().orElse(""));
 			statement.setInt(3, contact.getId());

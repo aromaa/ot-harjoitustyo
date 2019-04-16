@@ -24,6 +24,9 @@ public abstract class EventDispatcher {
 	@SuppressWarnings("unchecked")
 	public <T extends Event> void fireEvent(T event) {
 		List<EventListener<T>> listeners = (List<EventListener<T>>) (List<?>) this.listeners.get(event.getClass());
+		if (listeners == null) {
+			return;
+		}
 		
 		listeners.forEach((l) -> l.invoke(event));
 	}

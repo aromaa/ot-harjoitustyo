@@ -8,6 +8,7 @@
 | 4.4.  | 1    | Käyttäjän tunnistaminen hyödyntäen private-public key pair |
 | 7.4.  | 1    | Checkstyle & code reformat |
 | 9.4.  | 2    | Testejä lisää & Sovelluslogiikka |
-| 14.4.  | 2    | Kontaktit |
-| 16.4.  | 4    | Keskustelut |
-| Yht   | 15    | | 
+| 14.4. | 2    | Kontaktit |
+| 16.4. | 4    | Keskustelut |
+|       | 2    | Testejä lisää |
+| Yht   | 17    | | 
