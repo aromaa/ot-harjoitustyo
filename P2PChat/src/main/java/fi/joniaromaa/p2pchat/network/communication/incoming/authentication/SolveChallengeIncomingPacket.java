@@ -19,7 +19,7 @@ public class SolveChallengeIncomingPacket implements IncomingPacket {
 
 	@Override
 	public void handle(ConnectionHandler handler) throws Exception {
-		MyIdentity identity = handler.getPanel().getIdentity();
+		MyIdentity identity = handler.getChatManager().getIdentity();
 
 		// TODO: Handle the exceptions?
 		byte[] signed = EncryptionUtils.getSignedChallange(identity.getKeyPair().getPrivate(), this.challenge);

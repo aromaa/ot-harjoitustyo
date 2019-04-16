@@ -3,8 +3,10 @@ package fi.joniaromaa.p2pchat.ui;
 import java.io.IOException;
 
 import fi.joniaromaa.p2pchat.Program;
+import fi.joniaromaa.p2pchat.chat.ChatManager;
 import fi.joniaromaa.p2pchat.identity.MyIdentity;
 import fi.joniaromaa.p2pchat.storage.Storage;
+import fi.joniaromaa.p2pchat.utils.IdentityUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,11 +21,15 @@ public class FirstStartController {
 
 	@FXML
 	private void confirm() {
+		if (!IdentityUtils.isValidNickname(this.nickField.getText())) {
+			return;
+		}
+		
 		MyIdentity identity = MyIdentity.generate(this.nickField.getText());
 
 		if (this.storage.getIdentityDao().save(identity)) {
 			try {
-				Program.setNode(PanelController.create(this.storage, identity));
+				Program.setNode(PanelController.create(new ChatManager(identity, this.storage)));
 			} catch (IOException ignore) {
 			}
 		} else {

@@ -18,10 +18,10 @@ public class SqliteIdentityAdapter extends AbstractIdentityAdapter<SqliteStorage
 
 	@Override
 	public boolean save(MyIdentity identity) {
-		try (PreparedStatement statement = this.getStorage().getConnection().prepareStatement("INSERT INTO identity(id, nickname, private_key, public_key) VALUES(1, ?, ?, ?)")) {
-			statement.setString(1, identity.getNickname());
-			statement.setBytes(2, identity.getKeyPair().getPrivate().getEncoded());
-			statement.setBytes(3, identity.getKeyPair().getPublic().getEncoded());
+		try (PreparedStatement statement = this.getStorage().getConnection().prepareStatement("INSERT INTO identity(id, private_key, public_key, nickname) VALUES(1, ?, ?, ?)")) {
+			statement.setBytes(1, identity.getKeyPair().getPrivate().getEncoded());
+			statement.setBytes(2, identity.getKeyPair().getPublic().getEncoded());
+			statement.setString(3, identity.getNickname());
 			statement.execute();
 
 			return true;
@@ -34,15 +34,15 @@ public class SqliteIdentityAdapter extends AbstractIdentityAdapter<SqliteStorage
 
 	@Override
 	public Optional<MyIdentity> getIdentity() {
-		try (PreparedStatement statement = this.getStorage().getConnection().prepareStatement("SELECT nickname, private_key, public_key FROM identity WHERE id = 1 LIMIT 1")) {
+		try (PreparedStatement statement = this.getStorage().getConnection().prepareStatement("SELECT private_key, public_key, nickname FROM identity WHERE id = 1 LIMIT 1")) {
 			try (ResultSet resultSet = statement.executeQuery()) {
 				if (resultSet.next()) {
-					String nickname = resultSet.getString("nickname");
-
 					byte[] privateKey = resultSet.getBytes("private_key");
 					byte[] publicKey = resultSet.getBytes("public_key");
+					
+					String nickname = resultSet.getString("nickname");
 
-					return Optional.of(new MyIdentity(nickname, EncryptionUtils.getKeyPair(privateKey, publicKey)));
+					return Optional.of(new MyIdentity(EncryptionUtils.getKeyPair(privateKey, publicKey), nickname));
 				}
 			} catch (InvalidKeySpecException e) {
 				return Optional.empty();

@@ -1,8 +1,13 @@
 package fi.joniaromaa.p2pchat.network.communication.handler;
 
+import java.util.Optional;
+
+import com.google.common.base.Preconditions;
+
+import fi.joniaromaa.p2pchat.chat.ChatManager;
+import fi.joniaromaa.p2pchat.identity.ContactIdentity;
 import fi.joniaromaa.p2pchat.network.communication.IncomingPacket;
 import fi.joniaromaa.p2pchat.network.communication.outgoing.PingOutgoingPacket;
-import fi.joniaromaa.p2pchat.ui.PanelController;
 import fi.joniaromaa.p2pchat.utils.EncryptionUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -14,11 +19,14 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public abstract class ConnectionHandler extends SimpleChannelInboundHandler<IncomingPacket> {
-	@Getter private final PanelController panel;
+	private static final int CHALLENGE_SIZE = 256;
+	
+	@Getter private final ChatManager chatManager;
 
 	@Getter private Channel channel;
 
 	@Getter private byte[] pendingChallenge;
+	private ContactIdentity contact;
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) {
@@ -48,6 +56,20 @@ public abstract class ConnectionHandler extends SimpleChannelInboundHandler<Inco
 	}
 
 	public void createChallenge() {
-		this.pendingChallenge = EncryptionUtils.requestRandomBytes(256);
+		Preconditions.checkState(this.contact == null, "Contact has already been initialized");
+		Preconditions.checkState(this.pendingChallenge == null, "createChallenge() should only be called once");
+		
+		this.pendingChallenge = EncryptionUtils.requestRandomBytes(ConnectionHandler.CHALLENGE_SIZE);
+	}
+	
+	public void setContact(ContactIdentity contact) {
+		Preconditions.checkState(this.contact == null, "Contact has already been initialized");
+		
+		this.contact = contact;
+		this.pendingChallenge = null;
+	}
+	
+	public Optional<ContactIdentity> getContact() {
+		return Optional.ofNullable(this.contact);
 	}
 }

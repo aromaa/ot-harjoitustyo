@@ -3,6 +3,7 @@ package fi.joniaromaa.p2pchat;
 import java.io.File;
 import java.util.Optional;
 
+import fi.joniaromaa.p2pchat.chat.ChatManager;
 import fi.joniaromaa.p2pchat.identity.MyIdentity;
 import fi.joniaromaa.p2pchat.storage.Storage;
 import fi.joniaromaa.p2pchat.storage.sqlite.SqliteStorage;
@@ -37,7 +38,7 @@ public class Program extends Application {
 
 		Optional<MyIdentity> identity = storage.getIdentityDao().getIdentity();
 		if (identity.isPresent()) {
-			primaryStage.setScene(new Scene(PanelController.create(storage, identity.get())));
+			primaryStage.setScene(new Scene(PanelController.create(new ChatManager(identity.get(), storage))));
 		} else {
 			primaryStage.setScene(new Scene(FirstStartController.create(storage)));
 		}
@@ -46,8 +47,14 @@ public class Program extends Application {
 
 		primaryStage.show();
 	}
+	
+	@Override
+	public void stop() throws Exception {
+		System.exit(-1); //Hacky fix
+    }
 
 	public static void setNode(Parent value) {
 		Program.scene.setRoot(value);
+		Program.scene.getWindow().sizeToScene();
 	}
 }

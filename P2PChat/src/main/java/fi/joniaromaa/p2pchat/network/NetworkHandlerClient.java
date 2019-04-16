@@ -2,12 +2,12 @@ package fi.joniaromaa.p2pchat.network;
 
 import java.util.concurrent.TimeUnit;
 
+import fi.joniaromaa.p2pchat.chat.ChatManager;
 import fi.joniaromaa.p2pchat.network.communication.OutgoingPacket;
 import fi.joniaromaa.p2pchat.network.communication.handler.ClientConnectionHandler;
 import fi.joniaromaa.p2pchat.network.communication.handler.PacketDecoderHandler;
 import fi.joniaromaa.p2pchat.network.communication.handler.PacketEncoderHandler;
 import fi.joniaromaa.p2pchat.network.communication.manager.PacketManager;
-import fi.joniaromaa.p2pchat.ui.PanelController;
 import fi.joniaromaa.p2pchat.utils.NettyUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -33,17 +33,17 @@ public class NetworkHandlerClient {
 		this.bossGroup = NettyUtils.createEventLoopGroup(1);
 	}
 
-	public void start(PanelController panel, String ip, int port) {
+	public void start(ChatManager chatManager, String ip, int port) {
 		Bootstrap bootstrap = new Bootstrap();
 		bootstrap.group(this.bossGroup)
 				.channel(NettyUtils.getSocketChannel())
 				.option(ChannelOption.TCP_NODELAY, true)
-				.handler(this.createChannelInitializer(panel));
+				.handler(this.createChannelInitializer(chatManager));
 
 		this.channel = bootstrap.connect(ip, port).awaitUninterruptibly().channel(); // Change to listener probs
 	}
 
-	private ChannelInitializer<SocketChannel> createChannelInitializer(PanelController panel) {
+	private ChannelInitializer<SocketChannel> createChannelInitializer(ChatManager chatManager) {
 		return new ChannelInitializer<SocketChannel>() {
 			@Override
 			protected void initChannel(SocketChannel channel) throws Exception {
@@ -56,7 +56,7 @@ public class NetworkHandlerClient {
 
 				pipeline.addLast(new LengthFieldBasedFrameDecoder(1 << 24, 0, 3, 0, 3));
 				pipeline.addLast(new PacketDecoderHandler(NetworkHandlerClient.this.packetManager));
-				pipeline.addLast(new ClientConnectionHandler(panel));
+				pipeline.addLast(new ClientConnectionHandler(chatManager));
 			}
 		};
 	}

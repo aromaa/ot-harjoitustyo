@@ -9,10 +9,12 @@ import fi.joniaromaa.p2pchat.network.communication.incoming.PingIncomingPacket;
 import fi.joniaromaa.p2pchat.network.communication.incoming.authentication.RequestChallengeIncomingPacket;
 import fi.joniaromaa.p2pchat.network.communication.incoming.authentication.SolveChallengeIncomingPacket;
 import fi.joniaromaa.p2pchat.network.communication.incoming.authentication.WhoAreYouIncomingPacket;
+import fi.joniaromaa.p2pchat.network.communication.incoming.chat.ChatMessageIncomingPacket;
 import fi.joniaromaa.p2pchat.network.communication.outgoing.PingOutgoingPacket;
 import fi.joniaromaa.p2pchat.network.communication.outgoing.authentication.RequestChallengeOutgoingPacket;
 import fi.joniaromaa.p2pchat.network.communication.outgoing.authentication.SolveChallengeOutgoingPacket;
 import fi.joniaromaa.p2pchat.network.communication.outgoing.authentication.WhoAreYouOutgoingPacket;
+import fi.joniaromaa.p2pchat.network.communication.outgoing.chat.ChatMessageOutgoingPacket;
 import io.netty.buffer.ByteBuf;
 
 public class PacketManager {
@@ -34,6 +36,7 @@ public class PacketManager {
 		this.addIncoming(1, PingIncomingPacket.class);
 		this.addIncoming(2, RequestChallengeIncomingPacket.class);
 		this.addIncoming(3, SolveChallengeIncomingPacket.class);
+		this.addIncoming(4, ChatMessageIncomingPacket.class);
 	}
 
 	private void addOutgoings() {
@@ -41,6 +44,7 @@ public class PacketManager {
 		this.addOutgoing(1, PingOutgoingPacket.class);
 		this.addOutgoing(2, RequestChallengeOutgoingPacket.class);
 		this.addOutgoing(3, SolveChallengeOutgoingPacket.class);
+		this.addOutgoing(4, ChatMessageOutgoingPacket.class);
 	}
 
 	protected void addIncoming(int id, Class<? extends IncomingPacket> packet) {

@@ -35,7 +35,7 @@ public class SqliteStorageIdentityTest
 	{
 		KeyPair keyPair = EncryptionUtils.generateKeyPair();
 		
-		MyIdentity identity = new MyIdentity("THIS-IS-TEST", keyPair);
+		MyIdentity identity = new MyIdentity(keyPair, "THIS-IS-TEST");
 		
 		this.storage.getIdentityDao().save(identity);
 		

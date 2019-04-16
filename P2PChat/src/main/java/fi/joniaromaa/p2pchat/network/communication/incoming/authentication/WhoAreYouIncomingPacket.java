@@ -2,10 +2,12 @@ package fi.joniaromaa.p2pchat.network.communication.incoming.authentication;
 
 import java.security.PublicKey;
 
+import fi.joniaromaa.p2pchat.identity.ContactIdentity;
 import fi.joniaromaa.p2pchat.network.communication.IncomingPacket;
 import fi.joniaromaa.p2pchat.network.communication.handler.ConnectionHandler;
 import fi.joniaromaa.p2pchat.utils.ByteBufUtils;
 import fi.joniaromaa.p2pchat.utils.EncryptionUtils;
+import fi.joniaromaa.p2pchat.utils.IdentityUtils;
 import io.netty.buffer.ByteBuf;
 import lombok.Getter;
 
@@ -24,11 +26,20 @@ public class WhoAreYouIncomingPacket implements IncomingPacket {
 	}
 
 	@Override
-	public void handle(ConnectionHandler handler) throws Exception {
+	public void handle(ConnectionHandler handler) throws Exception { 
+		if (!IdentityUtils.isValidNickname(this.nickname)) {
+			handler.getChannel().disconnect();
+			
+			return;
+		}
+		
 		PublicKey publicKey = EncryptionUtils.getPublicKey(this.iAm);
 
 		if (EncryptionUtils.verifyChallange(publicKey, handler.getPendingChallenge(), this.challenge)) {
-			handler.getPanel().getContacts().getItems().add(this.nickname);
+			ContactIdentity contact = handler.getChatManager().getContacts().addOrUpdate(publicKey, this.nickname);
+			handler.setContact(contact);
+			
+			handler.getChatManager().onConnection(handler);
 		} else {
 			handler.getChannel().disconnect(); // BYE FAKER!
 		}

@@ -1,12 +1,12 @@
 package fi.joniaromaa.p2pchat.network.communication.handler;
 
+import fi.joniaromaa.p2pchat.chat.ChatManager;
 import fi.joniaromaa.p2pchat.network.communication.outgoing.authentication.RequestChallengeOutgoingPacket;
-import fi.joniaromaa.p2pchat.ui.PanelController;
 import io.netty.channel.ChannelHandlerContext;
 
 public class ServerConnectionHandler extends ConnectionHandler {
-	public ServerConnectionHandler(PanelController panel) {
-		super(panel);
+	public ServerConnectionHandler(ChatManager chatManager) {
+		super(chatManager);
 	}
 
 	@Override
