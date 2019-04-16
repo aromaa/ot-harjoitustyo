@@ -1,0 +1,13 @@
+[Chat Manager]1-1[Contact Identity Manager]
+[Chat Manager]1-1[Chat Conversation Manager]
+[Chat Manager]1-1[My Identity]
+[Chat Manager]1-1[Storage]
+
+[Contact Identity Manager]1-1[Contact Identity]
+[Contact Identity Manager]1-1[Contacts Dao]
+
+[Chat Conversation Manager]1-1[Conversation Dao]
+[Chat Conversation Manager]1-1[Contact Identity Manager]
+[Chat Conversation Manager]1-1[Chat Conversation]
+
+[Chat Conversation]1-1[Contact Identity]

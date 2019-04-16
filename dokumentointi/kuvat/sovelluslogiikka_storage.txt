@@ -1,0 +1,35 @@
+[Storage]1-1[Identity Dao]
+[Storage]1-1[Contacts Dao]
+[Storage]1-1[Conversation Dao]
+
+[Storage]1-1[Abstract Storage Adapter]
+
+[Storage]1-1[Sqlite Storage]
+
+[Abstract Storage Adapter]1-1[Abstract Identity Adapter]
+[Abstract Identity Adapter]1-1[Identity Dao]
+
+[Abstract Storage Adapter]1-1[Abstract Contacts Adapter]
+[Abstract Contacts Adapter]1-1[Contacts Dao]
+
+[Abstract Storage Adapter]1-1[Abstract Conversation Adapter]
+[Abstract Conversation Adapter]1-1[Conversation Dao]
+
+[Sqlite Storage]1-1[Sqlite Identity Adapter]
+[Sqlite Identity Adapter]1-1[Abstract Identity Adapter]
+
+[Sqlite Storage]1-1[Sqlite Contacts Adapter]
+[Sqlite Contacts Adapter]1-1[Abstract Contacts Adapter]
+
+[Sqlite Storage]1-1[Sqlite Conversation Adapter]
+[Sqlite Conversation Adapter]1-1[Abstract Conversation Adapter]
+
+[Identity Dao]1-1[My Identity]
+
+[Contacts Dao]1-1[Contact Identity]
+
+[Chat Conversation]1-1[Conversation Dao]
+[Chat Conversation]1-1[Contact Identity]
+
+[Identity]1-1[My Identity]
+[Identity]1-1[Contact Identity]
