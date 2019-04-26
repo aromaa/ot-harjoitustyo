@@ -4,13 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.security.PublicKey;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,16 +19,12 @@ import fi.joniaromaa.p2pchat.utils.EncryptionUtils;
 
 public class SqliteStorageContactsAdapterTest
 {
-	private static final File TEST_FOLDER = new File("automated-tests-contacts");
-	
 	private SqliteStorage storage;
 	
 	@Before
 	public void setup() throws ClassNotFoundException, SQLException
 	{
-		SqliteStorageContactsAdapterTest.TEST_FOLDER.mkdirs();
-		
-		this.storage = new SqliteStorage(new File(SqliteStorageContactsAdapterTest.TEST_FOLDER, "test.db"));
+		this.storage = new SqliteStorage(":memory:");
 	}
 
 	@Test
@@ -96,7 +90,5 @@ public class SqliteStorageContactsAdapterTest
 	public void cleanup() throws Exception
 	{
 		this.storage.close();
-		
-		FileUtils.deleteDirectory(SqliteStorageContactsAdapterTest.TEST_FOLDER);
 	}
 }

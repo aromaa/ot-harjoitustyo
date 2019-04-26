@@ -18,15 +18,27 @@ public class SqliteStorage implements Storage {
 	@Getter private SqliteConversationAdapter conversationDao;
 
 	@Getter private Connection connection;
-
-	public SqliteStorage(File file) throws ClassNotFoundException, SQLException {
+	
+	public SqliteStorage() throws ClassNotFoundException {
 		Class.forName("org.sqlite.JDBC");
 
 		this.identityDao = new SqliteIdentityAdapter(this);
 		this.contactsDao = new SqliteContactsAdapter(this);
 		this.conversationDao = new SqliteConversationAdapter(this);
+	}
+
+	public SqliteStorage(File file) throws ClassNotFoundException, SQLException {
+		this();
 
 		this.connection = DriverManager.getConnection("jdbc:sqlite:" + file.getAbsolutePath());
+
+		this.setup();
+	}
+	
+	public SqliteStorage(String connectionString) throws ClassNotFoundException, SQLException {
+		this();
+		
+		this.connection = DriverManager.getConnection("jdbc:sqlite:" + connectionString);
 
 		this.setup();
 	}

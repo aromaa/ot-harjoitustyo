@@ -4,11 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.security.PublicKey;
 import java.sql.SQLException;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +17,6 @@ import fi.joniaromaa.p2pchat.utils.EncryptionUtils;
 
 public class ContactIdentityManagerTest
 {
-	private static final File TEST_FOLDER = new File("automated-tests-cim");
-	
 	private SqliteStorage storage;
 	
 	private ContactIdentityManager contactIdentity;
@@ -28,9 +24,7 @@ public class ContactIdentityManagerTest
 	@Before
 	public void setup() throws ClassNotFoundException, SQLException
 	{
-		ContactIdentityManagerTest.TEST_FOLDER.mkdirs();
-		
-		this.storage = new SqliteStorage(new File(ContactIdentityManagerTest.TEST_FOLDER, "test.db"));
+		this.storage = new SqliteStorage(":memory:");
 		
 		this.contactIdentity = new ContactIdentityManager(this.storage.getContactsDao());
 	}
@@ -73,7 +67,5 @@ public class ContactIdentityManagerTest
 	public void cleanup() throws Exception
 	{
 		this.storage.close();
-		
-		FileUtils.deleteDirectory(ContactIdentityManagerTest.TEST_FOLDER);
 	}
 }

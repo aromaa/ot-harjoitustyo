@@ -2,11 +2,9 @@ package fi.joniaromaa.p2pchat.chat.conversation;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.security.PublicKey;
 import java.sql.SQLException;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +16,6 @@ import fi.joniaromaa.p2pchat.utils.EncryptionUtils;
 
 public class ChatConversationManagerTest
 {
-	private static final File TEST_FOLDER = new File("automated-tests-cvm");
-	
 	private SqliteStorage storage;
 	
 	private ChatConversationManager conversationManager;
@@ -27,9 +23,7 @@ public class ChatConversationManagerTest
 	@Before
 	public void setup() throws ClassNotFoundException, SQLException
 	{
-		ChatConversationManagerTest.TEST_FOLDER.mkdirs();
-		
-		this.storage = new SqliteStorage(new File(ChatConversationManagerTest.TEST_FOLDER, "test.db"));
+		this.storage = new SqliteStorage(":memory:");
 		
 		this.conversationManager = new ChatConversationManager(this.storage.getConversationDao(), new ContactIdentityManager(this.storage.getContactsDao()));
 	}
@@ -51,7 +45,5 @@ public class ChatConversationManagerTest
 	public void cleanup() throws Exception
 	{
 		this.storage.close();
-		
-		FileUtils.deleteDirectory(ChatConversationManagerTest.TEST_FOLDER);
 	}
 }

@@ -3,11 +3,9 @@ package fi.joniaromaa.p2pchat.storage.sqlite;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.security.PublicKey;
 import java.sql.SQLException;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,16 +16,12 @@ import fi.joniaromaa.p2pchat.utils.EncryptionUtils;
 
 public class SqliteStorageConversationAdapterTest
 {
-	private static final File TEST_FOLDER = new File("automated-tests-conversation");
-	
 	private SqliteStorage storage;
 	
 	@Before
 	public void setup() throws ClassNotFoundException, SQLException
 	{
-		SqliteStorageConversationAdapterTest.TEST_FOLDER.mkdirs();
-		
-		this.storage = new SqliteStorage(new File(SqliteStorageConversationAdapterTest.TEST_FOLDER, "test.db"));
+		this.storage = new SqliteStorage(":memory:");
 	}
 	
 	@Test
@@ -61,7 +55,5 @@ public class SqliteStorageConversationAdapterTest
 	public void cleanup() throws Exception
 	{
 		this.storage.close();
-		
-		FileUtils.deleteDirectory(SqliteStorageConversationAdapterTest.TEST_FOLDER);
 	}
 }

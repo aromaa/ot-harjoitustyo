@@ -12,4 +12,5 @@
 | 16.4. | 4    | Keskustelut |
 |       | 2    | Testejä lisää |
 | 26.4. | 2    | Javadoc |
+|       | 1    | Testejä testejä! |
 | Yht   | 19    | | 
