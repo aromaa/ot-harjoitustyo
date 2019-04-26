@@ -14,4 +14,5 @@
 | 26.4. | 2    | Javadoc |
 |       | 1    | Testejä testejä! |
 |       | 2    | Network discovery |
-| Yht   | 21    | | 
+|       | 1    | Dokumentaatiota |
+| Yht   | 22    | | 
