@@ -1,0 +1,14 @@
+Client->Server: Request Challange
+Server->Client: Request Challange
+
+Server->Server: Create Challange
+Server->Client: Solve Challange
+
+Client->Client: Crate Challange
+Client->Server: Solve Challange
+
+Client->Server: Who Are You
+Server->Server: Verify Challange
+
+Server->Client: Who Are You
+Client->Client: Verify Challange
