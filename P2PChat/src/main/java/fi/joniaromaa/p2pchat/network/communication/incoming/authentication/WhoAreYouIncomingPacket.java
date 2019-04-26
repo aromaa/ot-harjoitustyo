@@ -1,6 +1,7 @@
 package fi.joniaromaa.p2pchat.network.communication.incoming.authentication;
 
 import java.security.PublicKey;
+import java.util.Arrays;
 
 import fi.joniaromaa.p2pchat.identity.ContactIdentity;
 import fi.joniaromaa.p2pchat.network.communication.IncomingPacket;
@@ -34,6 +35,11 @@ public class WhoAreYouIncomingPacket implements IncomingPacket {
 		}
 		
 		PublicKey publicKey = EncryptionUtils.getPublicKey(this.iAm);
+		if (Arrays.equals(handler.getChatManager().getIdentity().getPublicKeyBytes(), publicKey.getEncoded())) {
+			handler.getChannel().disconnect(); //Oh... Its us...
+
+			return;
+		}
 
 		if (EncryptionUtils.verifyChallange(publicKey, handler.getPendingChallenge(), this.challenge)) {
 			ContactIdentity contact = handler.getChatManager().getContacts().addOrUpdate(publicKey, this.nickname);

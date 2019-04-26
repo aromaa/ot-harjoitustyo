@@ -7,6 +7,8 @@ import fi.joniaromaa.p2pchat.utils.NettyUtils;
 import fi.joniaromaa.p2pchat.utils.NetworkHandlerUtils;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.ChannelPipeline;
@@ -29,7 +31,7 @@ public class NetworkHandlerServer {
 		this.childGroup = NettyUtils.createEventLoopGroup();
 	}
 
-	public void start(ChatManager chatManager) {
+	public ChannelFuture start(ChatManager chatManager) {
 		ServerBootstrap boostrap = new ServerBootstrap();
 		boostrap.group(this.bossGroup, this.childGroup)
 				.channel(NettyUtils.getServerChannel())
@@ -37,7 +39,12 @@ public class NetworkHandlerServer {
 				.childOption(ChannelOption.TCP_NODELAY, true)
 				.childHandler(this.createChannelInitializer(chatManager));
 
-		this.channel = boostrap.bind(0).syncUninterruptibly().channel();
+		return boostrap.bind(0).addListener(new ChannelFutureListener() {
+			@Override
+			public void operationComplete(ChannelFuture future) throws Exception {
+				NetworkHandlerServer.this.channel = future.channel();
+			}
+		});
 	}
 
 	private ChannelInitializer<SocketChannel> createChannelInitializer(ChatManager chatManager) {
