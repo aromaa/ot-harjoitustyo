@@ -7,8 +7,10 @@ import fi.joniaromaa.p2pchat.chat.contacts.ContactIdentityManager;
 import fi.joniaromaa.p2pchat.identity.ContactIdentity;
 import fi.joniaromaa.p2pchat.storage.dao.ConversationDao;
 
+/**
+ * Keeps track of the many {@link ChatConversation} in optimized way that no multiple lookups to the {@link ConversationDao} needs to happen.
+ */
 public class ChatConversationManager {
-
 	private final ConversationDao dao;
 	
 	private final ContactIdentityManager contacts;
@@ -25,6 +27,13 @@ public class ChatConversationManager {
 		this.conversationByContactId = new HashMap<>();
 	}
 	
+	/**
+	 * Returns the cached {@link ChatConversation} or creates new one by using {@link ConversationDao#create(ContactIdentity)}.
+	 * 
+	 * @param contact The contact that the conversation is directed towards to.
+	 * 
+	 * @return Returns the cached {@link ChatConversation} or the new that we just created.
+	 */
 	public ChatConversation getOrCreate(ContactIdentity contact) {
 		ChatConversation conversation = this.conversationByContactId.get(contact.getId());
 		if (conversation == null) {

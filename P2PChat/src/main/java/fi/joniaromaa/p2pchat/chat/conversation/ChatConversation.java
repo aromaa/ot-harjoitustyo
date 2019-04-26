@@ -7,6 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
 
+/**
+ * Represents conversation between {@link ContactIdentity}.
+ */
 public class ChatConversation {
 	@Getter private final int id;
 	@Getter private final ContactIdentity contact;

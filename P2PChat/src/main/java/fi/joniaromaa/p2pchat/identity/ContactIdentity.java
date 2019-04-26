@@ -6,6 +6,9 @@ import java.util.Optional;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Represents {@link Identity} that can be considered as someone else that we know of.
+ */
 public class ContactIdentity implements Identity {
 	@Getter private final int id;
 	@Getter private final PublicKey publicKey;

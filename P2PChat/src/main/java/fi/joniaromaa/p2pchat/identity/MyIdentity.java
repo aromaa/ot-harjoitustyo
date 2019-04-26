@@ -9,6 +9,9 @@ import fi.joniaromaa.p2pchat.utils.EncryptionUtils;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Represents {@link Identity} that can be considered as someone who is the source of the {@link Identity}.
+ */
 public class MyIdentity implements Identity, Destroyable {
 	@Getter private final KeyPair keyPair;
 	
@@ -18,10 +21,6 @@ public class MyIdentity implements Identity, Destroyable {
 		this.keyPair = keyPair;
 		
 		this.nickname = nickname;
-	}
-
-	public static MyIdentity generate(String nickname) {
-		return new MyIdentity(EncryptionUtils.generateKeyPair(), nickname);
 	}
 
 	public void destroy() throws DestroyFailedException {
@@ -39,5 +38,16 @@ public class MyIdentity implements Identity, Destroyable {
 	@Override
 	public String getDisplayName() {
 		return this.nickname;
+	}
+
+	/**
+	 * Generates new {@link MyIdentity} with the specific nickname.
+	 * 
+	 * @param nickname The nickname to use.
+	 * 
+	 * @return Returns newly generated {@link MyIdentity} with randomly generated {@link KeyPair}.
+	 */
+	public static MyIdentity generate(String nickname) {
+		return new MyIdentity(EncryptionUtils.generateKeyPair(), nickname);
 	}
 }
