@@ -18,8 +18,14 @@ import java.util.Random;
 import io.netty.util.internal.ThreadLocalRandom;
 import lombok.Getter;
 
+/**
+ * Helper class to deal with strong encryption.
+ */
 public class EncryptionUtils {
-	private static final int KEYSIZE = 2048;
+	/**
+	 * The key size used to generate {@link KeyPair}.
+	 */
+	public static final int KEYSIZE = 2048;
 
 	private static KeyPairGenerator generator;
 	private static KeyFactory factory;
@@ -39,24 +45,69 @@ public class EncryptionUtils {
 		}
 	}
 
+	/**
+	 * Generates RSA {@link KeyPair} with {@link EncryptionUtils#KEYSIZE}.
+	 * 
+	 * @return The generated {@link KeyPair}.
+	 */
 	public static KeyPair generateKeyPair() {
 		return EncryptionUtils.generator.generateKeyPair();
 	}
 
+	/**
+	 * Converts byte array to {@link PrivateKey}.
+	 * 
+	 * @param bytes The byte array which contains the private key.
+	 * 
+	 * @return The {@link PrivateKey} that was created.
+	 * 
+	 * @throws InvalidKeySpecException if the byte array was invalid.
+	 */
 	public static PrivateKey getPrivateKey(byte[] bytes) throws InvalidKeySpecException {
 		return EncryptionUtils.factory.generatePrivate(new PKCS8EncodedKeySpec(bytes));
 	}
 
+	/**
+	 * Converts byte array to {@link PublicKey}.
+	 * 
+	 * @param bytes The byte array which contains the public key.
+	 * 
+	 * @return The {@link PublicKey} that was created.
+	 * 
+	 * @throws InvalidKeySpecException if the byte array was invalid.
+	 */
 	public static PublicKey getPublicKey(byte[] bytes) throws InvalidKeySpecException {
 		return EncryptionUtils.factory.generatePublic(new X509EncodedKeySpec(bytes));
 	}
 
+	/**
+	 * Converts byte arrays to {@link KeyPair}.
+	 * 
+	 * @param privateBytes The byte array which contains the private key.
+	 * @param publicBytes The byte array which contains the public key.
+	 * 
+	 * @return The {@link KeyPair} that was created.
+	 * 
+	 * @throws InvalidKeySpecException if the byte arrays were invalid.
+	 */
 	public static KeyPair getKeyPair(byte[] privateBytes, byte[] publicBytes) throws InvalidKeySpecException {
 		return new KeyPair(EncryptionUtils.getPublicKey(publicBytes), EncryptionUtils.getPrivateKey(privateBytes));
 	}
 
+	/**
+	 * Signs the challenge with {@link PrivateKey} using SHA 256 with RSA.
+	 * 
+	 * @param privateKey The private key to sign the challenge with.
+	 * @param challenge The challenge to sign.
+	 * 
+	 * @return The signed challenge.
+	 * 
+	 * @throws InvalidKeyException If the {@link PrivateKey} was invalid.
+	 * @throws NoSuchAlgorithmException If the platform does not support this type of algorithm.
+	 * @throws SignatureException If the signature could not been updated.
+	 */
 	public static byte[] getSignedChallange(PrivateKey privateKey, byte[] challenge)
-			throws SignatureException, InvalidKeyException, NoSuchAlgorithmException {
+			throws InvalidKeyException, NoSuchAlgorithmException, SignatureException {
 		Signature signature = Signature.getInstance("SHA256withRSA");
 
 		signature.initSign(privateKey);
@@ -65,8 +116,21 @@ public class EncryptionUtils {
 		return signature.sign();
 	}
 
+	/**
+	 * Verifies that the signed challenge is generated with {@link PrivateKey} associated with the {@link PublicKey}.
+	 * 
+	 * @param publicKey The {@link PublicKey} associated with {@link PrivateKey}.
+	 * @param challenge Challenge to sign.
+	 * @param signedChallenge The challenge that was signed.
+	 * 
+	 * @return Whatever the signing is genius.
+	 * 
+	 * @throws InvalidKeyException If the {@link PrivateKey} was invalid.
+	 * @throws NoSuchAlgorithmException If the platform does not support this type of algorithm.
+	 * @throws SignatureException If the signature could not been updated.
+	 */
 	public static boolean verifyChallange(PublicKey publicKey, byte[] challenge, byte[] signedChallenge)
-			throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
+			throws InvalidKeyException, NoSuchAlgorithmException, SignatureException {
 		Signature signature = Signature.getInstance("SHA256withRSA");
 
 		signature.initVerify(publicKey);
@@ -75,6 +139,15 @@ public class EncryptionUtils {
 		return signature.verify(signedChallenge);
 	}
 
+	/**
+	 * Generates selected amount of bytes using secure algorithm.
+	 * 
+	 * <b>FALLBACKS TO UNSECURE RANDOM WHEN UNAVAIBLE TO USE SECURE ONE</b>.
+	 * 
+	 * @param amount The amount of bytes to generate.
+	 * 
+	 * @return Returns the byte array which has the amount of selected bytes.
+	 */
 	public static byte[] requestRandomBytes(int amount) {
 		Random random;
 

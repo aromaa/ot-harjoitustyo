@@ -5,7 +5,6 @@ import java.security.KeyPair;
 import javax.security.auth.DestroyFailedException;
 import javax.security.auth.Destroyable;
 
-import fi.joniaromaa.p2pchat.utils.EncryptionUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,16 +37,5 @@ public class MyIdentity implements Identity, Destroyable {
 	@Override
 	public String getDisplayName() {
 		return this.nickname;
-	}
-
-	/**
-	 * Generates new {@link MyIdentity} with the specific nickname.
-	 * 
-	 * @param nickname The nickname to use.
-	 * 
-	 * @return Returns newly generated {@link MyIdentity} with randomly generated {@link KeyPair}.
-	 */
-	public static MyIdentity generate(String nickname) {
-		return new MyIdentity(EncryptionUtils.generateKeyPair(), nickname);
 	}
 }

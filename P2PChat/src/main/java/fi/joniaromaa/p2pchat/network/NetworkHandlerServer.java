@@ -16,6 +16,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import lombok.Getter;
 
+/**
+ * Listens for incoming {@link NetworkHandlerClient}.
+ */
 public class NetworkHandlerServer {
 	private PacketManager packetManager;
 
@@ -31,6 +34,13 @@ public class NetworkHandlerServer {
 		this.childGroup = NettyUtils.createEventLoopGroup();
 	}
 
+	/**
+	 * Binds to random port and starts to listen for connections.
+	 * 
+	 * @param chatManager The {@link ChatManager} to deal with upcoming connections.
+	 * 
+	 * @return {@link ChannelFuture} to listen when the bind was completed.
+	 */
 	public ChannelFuture start(ChatManager chatManager) {
 		ServerBootstrap boostrap = new ServerBootstrap();
 		boostrap.group(this.bossGroup, this.childGroup)
@@ -60,6 +70,9 @@ public class NetworkHandlerServer {
 		};
 	}
 
+	/**
+	 * Stops listening for connections and disconnects all clients.
+	 */
 	public void stop() {
 		this.bossGroup.shutdownGracefully();
 		this.childGroup.shutdownGracefully();

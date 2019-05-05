@@ -10,7 +10,16 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;
 
+/**
+ * Helper class for network handlers.
+ */
 public class NetworkHandlerUtils {
+	/**
+	 * Adds default pipeline handlers to the {@link ChannelPipeline}.
+	 * 
+	 * @param pipeline The pipeline to add the handlers.
+	 * @param packetManager The packet manager to deal with incoming packets.
+	 */
 	public static void defaultPipeline(ChannelPipeline pipeline, PacketManager packetManager) {
 
 		pipeline.addLast(new LengthFieldPrepender(3));

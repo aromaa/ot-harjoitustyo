@@ -17,6 +17,9 @@ import fi.joniaromaa.p2pchat.network.communication.outgoing.authentication.WhoAr
 import fi.joniaromaa.p2pchat.network.communication.outgoing.chat.ChatMessageOutgoingPacket;
 import io.netty.buffer.ByteBuf;
 
+/**
+ * Keeps list of packet id's and helps to write and read packets.
+ */
 public class PacketManager {
 	private Map<Integer, Class<? extends IncomingPacket>> incoming;
 
@@ -55,6 +58,13 @@ public class PacketManager {
 		this.outgoing.put(packet, id);
 	}
 
+	/**
+	 * Creates according {@link IncomingPacket} based on the {@link ByteBuf} data.
+	 * 
+	 * @param in The {@link ByteBuf} containing the packet data.
+	 * 
+	 * @return The {@link IncomingPacket} that represents the {@link ByteBuf} data.
+	 */
 	public IncomingPacket readIncomingPacket(ByteBuf in) {
 		int packetId = in.readByte(); // 7bit encoding could have been better
 
@@ -73,6 +83,12 @@ public class PacketManager {
 		return null;
 	}
 
+	/**
+	 * Writes {@link OutgoingPacket} data to {@link ByteBuf}.
+	 * 
+	 * @param packet The {@link OutgoingPacket} to write.
+	 * @param out The {@link ByteBuf} to write the data to.
+	 */
 	public void writeOutgoingPacket(OutgoingPacket packet, ByteBuf out) {
 		Integer packetId = this.outgoing.get(packet.getClass());
 		if (packetId == null) {

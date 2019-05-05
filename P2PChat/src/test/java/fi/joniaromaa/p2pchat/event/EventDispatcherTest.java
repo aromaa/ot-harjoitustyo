@@ -1,9 +1,8 @@
 package fi.joniaromaa.p2pchat.event;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
 
@@ -19,26 +18,33 @@ public class EventDispatcherTest
 			//Anonymous class
 		};
 		
-		AtomicBoolean testBoolean = new AtomicBoolean();
+		AtomicInteger testCount = new AtomicInteger();
 		
-		dispatcher.addListener(OnContactAddEvent.class, new EventListener<OnContactAddEvent>()
+		EventListener<OnContactAddEvent> listener = new EventListener<OnContactAddEvent>()
 		{
 			@Override
 			public void invoke(OnContactAddEvent event)
 			{
-				testBoolean.set(true);
+				testCount.getAndIncrement();
 			}
-		});
+		};
+		
+		dispatcher.addListener(OnContactAddEvent.class, listener);
 		
 		dispatcher.fireEvent(new Event()
 		{
 			//Anonymous class
 		});
 		
-		assertFalse(testBoolean.get());
+		assertEquals(0, testCount.get());
 		
 		dispatcher.fireEvent(new OnContactAddEvent(null));
 		
-		assertTrue(testBoolean.get());
+		assertEquals(1, testCount.get());
+		
+		dispatcher.addListener(OnContactAddEvent.class, listener);
+		dispatcher.fireEvent(new OnContactAddEvent(null));
+		
+		assertEquals(3, testCount.get());
 	}
 }

@@ -17,6 +17,9 @@ import io.netty.handler.timeout.IdleStateEvent;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Holds the data of the current network session status.
+ */
 @RequiredArgsConstructor
 public abstract class ConnectionHandler extends SimpleChannelInboundHandler<IncomingPacket> {
 	private static final int CHALLENGE_SIZE = 256;
@@ -55,6 +58,9 @@ public abstract class ConnectionHandler extends SimpleChannelInboundHandler<Inco
 		ctx.fireUserEventTriggered(e);
 	}
 
+	/**
+	 * Creates new challenge to authenticate the other user with.
+	 */
 	public void createChallenge() {
 		Preconditions.checkState(this.contact == null, "Contact has already been initialized");
 		Preconditions.checkState(this.pendingChallenge == null, "createChallenge() should only be called once");
@@ -62,6 +68,11 @@ public abstract class ConnectionHandler extends SimpleChannelInboundHandler<Inco
 		this.pendingChallenge = EncryptionUtils.requestRandomBytes(ConnectionHandler.CHALLENGE_SIZE);
 	}
 	
+	/**
+	 * Sets the other user contact.
+	 * 
+	 * @param contact The {@link ContactIdentity} that we communicate with.
+	 */
 	public void setContact(ContactIdentity contact) {
 		Preconditions.checkState(this.contact == null, "Contact has already been initialized");
 		
@@ -69,6 +80,11 @@ public abstract class ConnectionHandler extends SimpleChannelInboundHandler<Inco
 		this.pendingChallenge = null;
 	}
 	
+	/**
+	 * Gets the {@link ContactIdentity} that we communicate with.
+	 * 
+	 * @return The {@link ContactIdentity}, or if not initialized yet, {@link Optional#empty()}
+	 */
 	public Optional<ContactIdentity> getContact() {
 		return Optional.ofNullable(this.contact);
 	}

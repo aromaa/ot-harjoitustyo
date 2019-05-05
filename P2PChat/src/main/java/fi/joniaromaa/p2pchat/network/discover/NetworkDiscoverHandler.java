@@ -16,6 +16,9 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.socket.DatagramPacket;
 
+/**
+ * Listens and sends discovery requests.
+ */
 public class NetworkDiscoverHandler {
 	private final int listenerPort;
 	private ByteBuf discoverRequest;
@@ -40,6 +43,11 @@ public class NetworkDiscoverHandler {
 		this.discoverRequest = buf;
 	}
 	
+	/**
+	 * Starts UDP client.
+	 * 
+	 * @param chatManager The {@link ChatManager} to deal with connection.
+	 */
 	public void start(ChatManager chatManager) {
 		Bootstrap bootstrap = new Bootstrap();
 		bootstrap.group(this.bossGroup)
@@ -56,6 +64,9 @@ public class NetworkDiscoverHandler {
 		});
 	}
 	
+	/**
+	 * Sends discovery request to the local private network.
+	 */
 	public void discoverRequest() {
 		this.channel.writeAndFlush(new DatagramPacket(this.discoverRequest.retainedSlice(), new InetSocketAddress("255.255.255.255", 54321)));
 	}

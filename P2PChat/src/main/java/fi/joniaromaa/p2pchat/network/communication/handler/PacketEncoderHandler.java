@@ -7,6 +7,9 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Used to encode {@link OutgoingPacket} to {@link ByteBuf}.
+ */
 @RequiredArgsConstructor
 public class PacketEncoderHandler extends MessageToByteEncoder<OutgoingPacket> {
 	private final PacketManager packetManager;

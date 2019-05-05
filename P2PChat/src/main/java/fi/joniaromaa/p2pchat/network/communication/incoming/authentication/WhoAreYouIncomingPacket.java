@@ -3,6 +3,8 @@ package fi.joniaromaa.p2pchat.network.communication.incoming.authentication;
 import java.security.PublicKey;
 import java.util.Arrays;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import fi.joniaromaa.p2pchat.identity.ContactIdentity;
 import fi.joniaromaa.p2pchat.network.communication.IncomingPacket;
 import fi.joniaromaa.p2pchat.network.communication.handler.ConnectionHandler;
@@ -17,6 +19,17 @@ public class WhoAreYouIncomingPacket implements IncomingPacket {
 	@Getter private String nickname;
 
 	@Getter private byte[] challenge;
+	
+	public WhoAreYouIncomingPacket() {
+		
+	}
+	
+	@VisibleForTesting
+	WhoAreYouIncomingPacket(byte[] iAm, String nickname, byte[] challenge) {
+		this.iAm = iAm;
+		this.nickname = nickname;
+		this.challenge = challenge;
+	}
 
 	@Override
 	public void read(ByteBuf in) {

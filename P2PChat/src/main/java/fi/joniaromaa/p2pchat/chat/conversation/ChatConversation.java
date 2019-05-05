@@ -26,8 +26,12 @@ public class ChatConversation {
 	public void addChatMessage(Identity sender, String message) {
 		//Async to GUI Thread
 		Platform.runLater(() -> {
-			this.chatHistory.add(sender.getDisplayName() + ": " + message);
+			this.addChatMessageUnsafe(sender, message);
 		});
+	}
+	
+	public void addChatMessageUnsafe(Identity sender, String message) {
+		this.chatHistory.add(sender.getDisplayName() + ": " + message);
 	}
 	
 	public ObservableList<String> getChatHistory() {

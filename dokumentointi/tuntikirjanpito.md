@@ -15,4 +15,6 @@
 |       | 1    | Testejä testejä! |
 |       | 2    | Network discovery |
 |       | 1    | Dokumentaatiota |
-| Yht   | 22    | | 
+| 5.5.  | 2    | Tests |
+|       | 2    | Javadoc |
+| Yht   | 27    | | 

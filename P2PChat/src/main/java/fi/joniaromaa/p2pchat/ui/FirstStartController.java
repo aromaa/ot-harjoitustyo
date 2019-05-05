@@ -22,10 +22,13 @@ public class FirstStartController {
 	@FXML
 	private void confirm() {
 		if (!IdentityUtils.isValidNickname(this.nickField.getText())) {
+			Alert alert = new Alert(AlertType.ERROR, "The nickname must be between 1 to 32 chars long");
+			alert.show();
+			
 			return;
 		}
 		
-		MyIdentity identity = MyIdentity.generate(this.nickField.getText());
+		MyIdentity identity = IdentityUtils.generateMyIdentity(this.nickField.getText());
 
 		if (this.storage.getIdentityDao().save(identity)) {
 			try {

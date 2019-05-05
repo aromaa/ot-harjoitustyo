@@ -9,10 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fi.joniaromaa.p2pchat.identity.ContactIdentity;
-import fi.joniaromaa.p2pchat.identity.MyIdentity;
 import fi.joniaromaa.p2pchat.network.communication.handler.ClientConnectionHandler;
 import fi.joniaromaa.p2pchat.storage.sqlite.SqliteStorage;
 import fi.joniaromaa.p2pchat.utils.EncryptionUtils;
+import fi.joniaromaa.p2pchat.utils.IdentityUtils;
 import io.netty.channel.embedded.EmbeddedChannel;
 
 public class ChatManagerTest
@@ -25,7 +25,7 @@ public class ChatManagerTest
 	{
 		this.storage = new SqliteStorage(":memory:");
 		
-		this.chatManager = new ChatManager(MyIdentity.generate("Joni"), this.storage);
+		this.chatManager = new ChatManager(IdentityUtils.generateMyIdentity("Joni"), this.storage);
 	}
 	
 	@Test

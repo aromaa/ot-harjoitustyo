@@ -1,5 +1,7 @@
 package fi.joniaromaa.p2pchat.network.communication.incoming.authentication;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import fi.joniaromaa.p2pchat.identity.MyIdentity;
 import fi.joniaromaa.p2pchat.network.communication.IncomingPacket;
 import fi.joniaromaa.p2pchat.network.communication.handler.ConnectionHandler;
@@ -11,6 +13,15 @@ import lombok.Getter;
 
 public class SolveChallengeIncomingPacket implements IncomingPacket {
 	@Getter private byte[] challenge;
+	
+	public SolveChallengeIncomingPacket() {
+		
+	}
+	
+	@VisibleForTesting
+	SolveChallengeIncomingPacket(byte[] challenge) {
+		this.challenge = challenge;
+	}
 
 	@Override
 	public void read(ByteBuf in) {

@@ -1,5 +1,7 @@
 package fi.joniaromaa.p2pchat.network.communication.incoming.chat;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import fi.joniaromaa.p2pchat.network.communication.IncomingPacket;
 import fi.joniaromaa.p2pchat.network.communication.handler.ConnectionHandler;
 import fi.joniaromaa.p2pchat.utils.ByteBufUtils;
@@ -9,6 +11,15 @@ import lombok.Getter;
 public class ChatMessageIncomingPacket implements IncomingPacket {
 
 	@Getter private String message;
+	
+	public ChatMessageIncomingPacket() {
+		
+	}
+	
+	@VisibleForTesting
+	ChatMessageIncomingPacket(String message) {
+		
+	}
 	
 	@Override
 	public void read(ByteBuf in) {

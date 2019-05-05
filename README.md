@@ -8,11 +8,15 @@ Sovelluksen avulla käyttäjät voivat jutella ja mahdollisesti jakaa tiedostoja
 
 [Käyttöohje](https://github.com/isokissa3/ot-harjoitustyo/blob/master/dokumentointi/kayottoohje.md)
 
+[Testausdokumentti](https://github.com/isokissa3/ot-harjoitustyo/blob/master/dokumentointi/testaus.md)
+
 [Työaikakirjanpito](https://github.com/isokissa3/ot-harjoitustyo/blob/master/dokumentointi/tuntikirjanpito.md)
 
 [Vaatimusmäärittely](https://github.com/isokissa3/ot-harjoitustyo/blob/master/dokumentointi/vaatimusmaarittely.md)
 
 ## Releaset
+
+[Loppupalautus](https://github.com/isokissa3/ot-harjoitustyo/releases/tag/loppupalautus)
 
 [Viikko 6](https://github.com/isokissa3/ot-harjoitustyo/releases/tag/viikko6)
 
@@ -49,7 +53,7 @@ mvn test
 Testikattavuusraportti luodaan komennolla
 
 ```
-mvn jacoco:report
+mvn test jacoco:report
 ```
 
 Kattavuusraporttia voi tarkastella avaamalla selaimella tiedosto _target/site/jacoco/index.html_

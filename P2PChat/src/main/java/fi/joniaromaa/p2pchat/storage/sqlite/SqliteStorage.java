@@ -12,6 +12,9 @@ import fi.joniaromaa.p2pchat.storage.sqlite.adapter.SqliteConversationAdapter;
 import fi.joniaromaa.p2pchat.storage.sqlite.adapter.SqliteIdentityAdapter;
 import lombok.Getter;
 
+/**
+ * Implementation of {@link Storage} using SQLite.
+ */
 public class SqliteStorage implements Storage {
 	@Getter private SqliteIdentityAdapter identityDao;
 	@Getter private SqliteContactsAdapter contactsDao;

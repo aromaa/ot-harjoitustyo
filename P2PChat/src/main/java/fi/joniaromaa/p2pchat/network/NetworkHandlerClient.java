@@ -13,6 +13,9 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 
+/**
+ * Connects to listening {@link NetworkHandlerServer}.
+ */
 public class NetworkHandlerClient {
 	private PacketManager packetManager;
 
@@ -24,6 +27,15 @@ public class NetworkHandlerClient {
 		this.bossGroup = NettyUtils.createEventLoopGroup(1);
 	}
 
+	/**
+	 * Tries to connect to {@link NetworkHandlerServer}.
+	 * 
+	 * @param chatManager The {@link ChatManager} to deal with connection.
+	 * @param ip The host to connect to.
+	 * @param port The host port to connect to.
+	 * 
+	 * @return {@link ChannelFuture} to listen when the connection was completed.
+	 */
 	public ChannelFuture start(ChatManager chatManager, String ip, int port) {
 		Bootstrap bootstrap = new Bootstrap();
 		bootstrap.group(this.bossGroup)
@@ -47,6 +59,9 @@ public class NetworkHandlerClient {
 		};
 	}
 
+	/**
+	 * Closes the connection.
+	 */
 	public void stop() {
 		this.bossGroup.shutdownGracefully();
 	}

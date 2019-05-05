@@ -14,6 +14,9 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.DatagramPacket;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Listens for datagram's that could contain discovery request.
+ */
 @RequiredArgsConstructor
 public class DiscoverHandler extends SimpleChannelInboundHandler<DatagramPacket>  {
 	private final ChatManager chatManager;
@@ -41,7 +44,7 @@ public class DiscoverHandler extends SimpleChannelInboundHandler<DatagramPacket>
 		this.connectTo(sender, port);
 	}
 	
-	private void connectTo(InetSocketAddress sender, int port) {
+	protected void connectTo(InetSocketAddress sender, int port) {
 		NetworkHandlerClient client = new NetworkHandlerClient();
 		client.start(this.chatManager, sender.getHostName(), port).addListener(new ChannelFutureListener() {
 			@Override
